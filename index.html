@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Story of Home — Auto Follow-up System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0f0f0f;
+    color: #e8e0d5;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  header {
+    width: 100%;
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #2a2a2a;
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 2px;
+  }
+
+  .logo span { font-style: italic; color: #c9a96e; }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #c9a96e;
+    border: 1px solid #c9a96e33;
+    padding: 5px 12px;
+  }
+
+  .wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 20px;
+  }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .intro h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 300;
+    margin-bottom: 12px;
+  }
+
+  .intro h1 em { font-style: italic; color: #c9a96e; }
+
+  .intro p {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Lead Input Section */
+  .lead-form {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    padding: 30px;
+    margin-bottom: 40px;
+  }
+
+  .lead-form h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    color: #c9a96e;
+    font-style: italic;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #666;
+  }
+
+  .form-group input, .form-group select {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    color: #e8e0d5;
+    padding: 10px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    outline: none;
+    transition: border 0.25s;
+  }
+
+  .form-group input:focus, .form-group select:focus {
+    border-color: #c9a96e66;
+  }
+
+  .form-group select option { background: #1a1a1a; }
+
+  .generate-btn {
+    background: #c9a96e;
+    border: none;
+    color: #0f0f0f;
+    padding: 14px 32px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.25s;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .generate-btn:hover { opacity: 0.85; }
+
+  /* Timeline */
+  .timeline-section { display: none; }
+  .timeline-section.visible { display: block; }
+
+  .timeline-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+
+  .timeline-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .lead-badge {
+    background: #c9a96e11;
+    border: 1px solid #c9a96e44;
+    padding: 8px 16px;
+    font-size: 12px;
+    color: #c9a96e;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, #c9a96e, #c9a96e33, transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 24px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+  .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+  .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+  .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+  .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -26px;
+    top: 18px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #c9a96e;
+    border: 2px solid #0f0f0f;
+    box-shadow: 0 0 0 2px #c9a96e44;
+  }
+
+  .email-card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    transition: border-color 0.25s;
+    cursor: pointer;
+  }
+
+  .email-card:hover { border-color: #c9a96e44; }
+  .email-card.open { border-color: #c9a96e44; }
+
+  .email-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+  }
+
+  .email-meta { display: flex; align-items: center; gap: 14px; }
+
+  .day-badge {
+    background: #c9a96e;
+    color: #0f0f0f;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .email-info { display: flex; flex-direction: column; gap: 3px; }
+
+  .email-subject {
+    font-size: 13px;
+    font-weight: 400;
+    color: #e8e0d5;
+  }
+
+  .email-timing {
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 1px;
+  }
+
+  .email-status {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #c9a96e;
+    opacity: 0.7;
+  }
+
+  .email-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid #222;
+    margin-top: 0;
+  }
+
+  .email-card.open .email-body { display: block; }
+
+  .email-preview {
+    background: #111;
+    padding: 20px 24px;
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.9;
+    color: #bbb;
+    border-left: 2px solid #c9a96e44;
+  }
+
+  .email-preview .salutation { color: #e8e0d5; font-weight: 400; }
+  .email-preview .highlight { color: #c9a96e; }
+  .email-preview .signature {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #222;
+    font-size: 12px;
+    color: #555;
+  }
+
+  .email-tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .etag {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid #2a2a2a;
+    color: #555;
+    padding: 3px 10px;
+  }
+
+  /* Stats Bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #2a2a2a;
+    margin-bottom: 40px;
+    border: 1px solid #2a2a2a;
+  }
+
+  .stat {
+    background: #1a1a1a;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: #c9a96e;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+    margin-top: 4px;
+    display: block;
+  }
+
+  footer {
+    padding: 24px 40px;
+    text-align: center;
+    font-size: 11px;
+    color: #333;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid #1a1a1a;
+  }
+
+  @media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    header { padding: 20px; }
+    .intro h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Story <span>of</span> Home</div>
+  <div class="tag">Auto Follow-Up System</div>
+</header>
+
+<div class="wrapper">
+  <div class="intro">
+    <h1>Automated <em>Follow-Up</em> Sequences</h1>
+    <p>Never lose a lead · Powered by AI · Story of Home</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-num">5</span>
+      <span class="stat-label">Touch Points</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">30</span>
+      <span class="stat-label">Day Sequence</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3x</span>
+      <span class="stat-label">More Conversions</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">0</span>
+      <span class="stat-label">Manual Work</span>
+    </div>
+  </div>
+
+  <!-- Lead Input Form -->
+  <div class="lead-form">
+    <h2>Generate a Follow-Up Sequence</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Lead Name</label>
+        <input type="text" id="leadName" placeholder="e.g. James Mitchell" />
+      </div>
+      <div class="form-group">
+        <label>Lead Type</label>
+        <select id="leadType">
+          <option value="buyer">Buyer</option>
+          <option value="tenant">Tenant</option>
+          <option value="vendor">Vendor</option>
+          <option value="landlord">Landlord</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Area of Interest</label>
+        <select id="leadArea">
+          <option value="Hackney">Hackney</option>
+          <option value="Soho">Soho</option>
+          <option value="Clapton">Clapton</option>
+          <option value="Putney">Putney</option>
+          <option value="Marylebone">Marylebone</option>
+          <option value="Peckham">Peckham</option>
+        </select>
+      </div>
+    </div>
+    <button class="generate-btn" onclick="generateSequence()">Generate Follow-Up Sequence →</button>
+  </div>
+
+  <!-- Timeline Output -->
+  <div class="timeline-section" id="timelineSection">
+    <div class="timeline-header">
+      <h2 id="timelineTitle">Follow-Up Sequence</h2>
+      <div class="lead-badge" id="leadBadge"></div>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+</div>
+
+<footer>175 Wardour St, Soho · London W1F 8WU · 0207 867 3999</footer>
+
+<script>
+const sequences = {
+  buyer: [
+    {
+      day: "Day 1",
+      timing: "Immediately after enquiry",
+      subject: "Thank you for your enquiry — Story of Home",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>
+Thank you for reaching out to <span class="highlight">Story of Home</span>. It was a pleasure to hear from you, and we're delighted to help you find your perfect home in <span class="highlight">${a}</span>.<br><br>
+We have a curated selection of properties that may suit your requirements, and a member of our senior team will be in touch with you shortly to discuss your search in more detail.<br><br>
+In the meantime, please do browse our latest listings at <span class="highlight">storyofhome.co.uk</span>.`,
+      tags: ["Instant Send", "Personalised", "Automated"]
+    },
+    {
+      day: "Day 3",
+      timing: "3 days after enquiry",
+      subject: "Properties you might love in " ,
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>
+We wanted to follow up with a small selection of homes in <span class="highlight">${a}</span> that we feel could be a wonderful match for you.<br><br>
+Each of these properties has been chosen with care, and we'd love to arrange a private viewing at your convenience — simply reply to this email or call us on <span class="highlight">0207 867 3999</span>.<br><br>
+We look forward to hearing from you.`,
+      tags: ["Property Suggestions", "Viewing CTA", "Automated"]
+    },
+    {
+      day: "Day 7",
+      timing: "1 week after enquiry",
+      subject: "Have you found what you're looking for?",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>
+We hope your search for a home in <span class="highlight">${a}</span> is going well. We just wanted to check in and see if there's anything further we can help you with.<br><br>
+If your requirements have changed, or if you'd like to discuss the market in more detail, our team is always available for a no-obligation conversation.<br><br>
+We're here whenever you need us.`,
+      tags: ["Check-In", "Soft Touch", "Automated"]
+    },
+    {
+      day: "Day 14",
+      timing: "2 weeks after enquiry",
+      subject: "New listings just arrived — Story of Home",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>
+We've just added some beautiful new homes to our portfolio in <span class="highlight">${a}</span> and nearby areas that we thought you'd want to be among the first to see.<br><br>
+Some of our finest properties are agreed before they appear on Rightmove — by staying in touch with us, you'll always have early access.<br><br>
+Shall we arrange a time to chat this week?`,
+      tags: ["New Listings", "Urgency", "Automated"]
+    },
+    {
+      day: "Day 30",
+      timing: "1 month after enquiry",
+      subject: "Still searching? We're still here.",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>
+A month has passed since you first got in touch, and we just wanted to make sure you haven't been forgotten — because at <span class="highlight">Story of Home</span>, every client matters to us.<br><br>
+If you're still searching for the right home in <span class="highlight">${a}</span>, we'd love to reconnect and see how we can help. The market moves quickly, and we'd hate for you to miss the right opportunity.<br><br>
+We're always just a call away.`,
+      tags: ["Re-engagement", "Long-term Nurture", "Automated"]
+    }
+  ],
+  tenant: [
+    {
+      day: "Day 1", timing: "Immediately after enquiry",
+      subject: "Your rental enquiry — Story of Home",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Thank you for your rental enquiry. We have some wonderful properties available to let in <span class="highlight">${a}</span> and would love to help you find your next home.<br><br>A member of our lettings team will be in touch shortly to arrange viewings.`,
+      tags: ["Instant Send", "Lettings", "Automated"]
+    },
+    {
+      day: "Day 3", timing: "3 days after enquiry",
+      subject: "Rental properties available in ",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We've selected a few rental properties in <span class="highlight">${a}</span> that match your requirements. We'd love to arrange viewings at your earliest convenience.<br><br>Please reply or call <span class="highlight">0207 867 3999</span> to book.`,
+      tags: ["Viewing CTA", "Lettings", "Automated"]
+    },
+    {
+      day: "Day 7", timing: "1 week after enquiry",
+      subject: "How is your search going?",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We just wanted to check in on your search for a rental home in <span class="highlight">${a}</span>. The lettings market moves quickly — if you've seen anything you'd like to move forward on, let us know and we'll handle everything swiftly.`,
+      tags: ["Check-In", "Soft Touch", "Automated"]
+    },
+    {
+      day: "Day 14", timing: "2 weeks after enquiry",
+      subject: "Fresh rental listings — just in",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>New rental properties have just come to market in <span class="highlight">${a}</span>. We'd love to get you in for a viewing before they're snapped up — lettings move fast right now.<br><br>Shall we arrange something this week?`,
+      tags: ["New Listings", "Urgency", "Automated"]
+    },
+    {
+      day: "Day 30", timing: "1 month after enquiry",
+      subject: "Still looking? Let us help.",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We know how tiring a property search can be. If you're still looking for the right rental in <span class="highlight">${a}</span>, please do reach out — we have off-market properties that never appear online, and we'd love to find you something special.`,
+      tags: ["Re-engagement", "Off-Market", "Automated"]
+    }
+  ],
+  vendor: [
+    {
+      day: "Day 1", timing: "Immediately after valuation request",
+      subject: "Your valuation request — Story of Home",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Thank you for requesting a valuation with <span class="highlight">Story of Home</span>. We specialise in selling beautiful homes across London and would be delighted to discuss how we can help you achieve the best possible price for your property in <span class="highlight">${a}</span>.`,
+      tags: ["Instant Send", "Valuation", "Automated"]
+    },
+    {
+      day: "Day 3", timing: "3 days after valuation request",
+      subject: "How we market homes like yours",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We wanted to share a little more about our approach. At <span class="highlight">Story of Home</span>, every property in <span class="highlight">${a}</span> is presented with exceptional photography, thoughtful copywriting, and targeted marketing to attract the right buyers.`,
+      tags: ["Brand Story", "Soft Sell", "Automated"]
+    },
+    {
+      day: "Day 7", timing: "1 week after valuation request",
+      subject: "Recent sales in your area",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We've recently sold several beautiful homes in <span class="highlight">${a}</span> and would love to share comparable results with you. Understanding the current market could be very helpful as you consider your next steps.`,
+      tags: ["Social Proof", "Market Data", "Automated"]
+    },
+    {
+      day: "Day 14", timing: "2 weeks after valuation request",
+      subject: "Ready when you are",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Selling your home is a significant decision, and we understand it takes time. When you're ready to take the next step, our team in <span class="highlight">${a}</span> is here to guide you through every stage of the process with care and expertise.`,
+      tags: ["Patient Nurture", "Trust Building", "Automated"]
+    },
+    {
+      day: "Day 30", timing: "1 month after valuation request",
+      subject: "The spring market is moving — a note from Story of Home",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>The London property market in <span class="highlight">${a}</span> is particularly active right now, and well-presented homes are achieving strong results. If you've been considering selling, this could be a wonderful time to take that step. We'd love to have a conversation.`,
+      tags: ["Market Update", "Seasonal", "Automated"]
+    }
+  ],
+  landlord: [
+    {
+      day: "Day 1", timing: "Immediately after enquiry",
+      subject: "Letting your property — Story of Home",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Thank you for your enquiry about letting your property in <span class="highlight">${a}</span>. Our lettings team has extensive experience managing beautiful homes across London and we'd love to discuss how we can help maximise your rental income.`,
+      tags: ["Instant Send", "Landlord", "Automated"]
+    },
+    {
+      day: "Day 3", timing: "3 days after enquiry",
+      subject: "Our lettings management service",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We offer a fully managed lettings service for landlords in <span class="highlight">${a}</span> — from finding quality tenants and referencing to rent collection and maintenance coordination. We take the stress out of letting, completely.`,
+      tags: ["Service Overview", "Landlord", "Automated"]
+    },
+    {
+      day: "Day 7", timing: "1 week after enquiry",
+      subject: "Current rental demand in your area",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Demand for quality rental properties in <span class="highlight">${a}</span> remains exceptionally strong. We currently have a number of pre-qualified tenants actively searching — your property could be let within days of listing.`,
+      tags: ["Market Intel", "Urgency", "Automated"]
+    },
+    {
+      day: "Day 14", timing: "2 weeks after enquiry",
+      subject: "Protecting your investment",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Beyond finding tenants, our managed service for landlords in <span class="highlight">${a}</span> ensures your property is cared for, your legal obligations are met, and your rental income arrives on time — every month.`,
+      tags: ["Trust", "Long-term Value", "Automated"]
+    },
+    {
+      day: "Day 30", timing: "1 month after enquiry",
+      subject: "How can we help you?",
+      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We understand letting a property is a big decision. If you have any questions about the process, rental values in <span class="highlight">${a}</span>, or how our service works, we'd be delighted to have a no-obligation conversation at a time that suits you.`,
+      tags: ["Re-engagement", "No Pressure", "Automated"]
+    }
+  ]
+};
+
+function generateSequence() {
+  const name = document.getElementById('leadName').value.trim() || 'James';
+  const type = document.getElementById('leadType').value;
+  const area = document.getElementById('leadArea').value;
+
+  const section = document.getElementById('timelineSection');
+  const timeline = document.getElementById('timeline');
+  const title = document.getElementById('timelineTitle');
+  const badge = document.getElementById('leadBadge');
+
+  const typeLabels = { buyer: 'Buyer', tenant: 'Tenant', vendor: 'Vendor', landlord: 'Landlord' };
+
+  title.textContent = `Follow-Up Sequence for ${name}`;
+  badge.textContent = `${typeLabels[type]} · ${area}`;
+
+  timeline.innerHTML = '';
+  section.classList.add('visible');
+
+  const emails = sequences[type];
+
+  emails.forEach((email, i) => {
+    const item = document.createElement('div');
+    item.className = 'timeline-item';
+
+    const subjectLine = email.subject.includes('in ') && !email.subject.includes('in "')
+      ? email.subject.replace(/in $/, `in ${area}`)
+      : email.subject;
+
+    item.innerHTML = `
+      <div class="timeline-dot"></div>
+      <div class="email-card" onclick="toggleEmail(this)">
+        <div class="email-header">
+          <div class="email-meta">
+            <div class="day-badge">${email.day}</div>
+            <div class="email-info">
+              <div class="email-subject">${subjectLine}</div>
+              <div class="email-timing">${email.timing}</div>
+            </div>
+          </div>
+          <div class="email-status">Auto Send ✦</div>
+        </div>
+        <div class="email-body">
+          <div class="email-preview">
+            ${email.body(name, area)}
+            <div class="signature">
+              Warm regards,<br>
+              <strong style="color:#c9a96e">Story of Home</strong><br>
+              175 Wardour St, Soho · London W1F 8WU<br>
+              0207 867 3999 · hello@storyofhome.co.uk
+            </div>
+          </div>
+          <div class="email-tags">
+            ${email.tags.map(t => `<span class="etag">${t}</span>`).join('')}
+          </div>
+        </div>
+      </div>`;
+    timeline.appendChild(item);
+  });
+
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleEmail(card) {
+  card.classList.toggle('open');
+}
+</script>
+</body>
+</html>
