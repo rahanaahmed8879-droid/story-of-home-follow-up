@@ -71,7 +71,38 @@
     text-transform: uppercase;
   }
 
-  /* Lead Input Section */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #2a2a2a;
+    margin-bottom: 40px;
+    border: 1px solid #2a2a2a;
+  }
+
+  .stat {
+    background: #1a1a1a;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: #c9a96e;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+    margin-top: 4px;
+    display: block;
+  }
+
   .lead-form {
     background: #1a1a1a;
     border: 1px solid #2a2a2a;
@@ -91,6 +122,13 @@
   .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 16px;
     margin-bottom: 16px;
   }
@@ -144,7 +182,6 @@
 
   .generate-btn:hover { opacity: 0.85; }
 
-  /* Timeline */
   .timeline-section { display: none; }
   .timeline-section.visible { display: block; }
 
@@ -155,6 +192,8 @@
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid #2a2a2a;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
   .timeline-header h2 {
@@ -272,19 +311,32 @@
     display: none;
     padding: 0 20px 20px;
     border-top: 1px solid #222;
-    margin-top: 0;
   }
 
   .email-card.open .email-body { display: block; }
 
+  .email-to-bar {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-bottom: none;
+    padding: 10px 16px;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    gap: 16px;
+  }
+
+  .email-to-bar span { color: #c9a96e; }
+
   .email-preview {
     background: #111;
     padding: 20px 24px;
-    margin-top: 16px;
     font-size: 13px;
     line-height: 1.9;
     color: #bbb;
     border-left: 2px solid #c9a96e44;
+    border: 1px solid #2a2a2a;
   }
 
   .email-preview .salutation { color: #e8e0d5; font-weight: 400; }
@@ -313,37 +365,63 @@
     padding: 3px 10px;
   }
 
-  /* Stats Bar */
-  .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: #2a2a2a;
-    margin-bottom: 40px;
-    border: 1px solid #2a2a2a;
-  }
-
-  .stat {
+  /* Schedule Button */
+  .schedule-bar {
+    margin-top: 40px;
     background: #1a1a1a;
-    padding: 20px;
+    border: 1px solid #2a2a2a;
+    padding: 24px;
     text-align: center;
   }
 
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-    font-weight: 300;
-    color: #c9a96e;
-    display: block;
+  .schedule-bar p {
+    font-size: 12px;
+    color: #555;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
   }
 
-  .stat-label {
-    font-size: 10px;
-    letter-spacing: 2px;
+  .schedule-btn {
+    background: #c9a96e;
+    border: none;
+    color: #0f0f0f;
+    padding: 16px 48px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    color: #555;
-    margin-top: 4px;
-    display: block;
+    cursor: pointer;
+    transition: opacity 0.25s;
+  }
+
+  .schedule-btn:hover { opacity: 0.85; }
+
+  /* Success Message */
+  .success-msg {
+    display: none;
+    background: #0a1a0a;
+    border: 1px solid #2a5a2a;
+    padding: 24px;
+    text-align: center;
+    margin-top: 16px;
+    animation: fadeUp 0.4s ease;
+  }
+
+  .success-msg.visible { display: block; }
+
+  .success-msg h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: #6abf6a;
+    margin-bottom: 8px;
+  }
+
+  .success-msg p {
+    font-size: 12px;
+    color: #4a8a4a;
+    letter-spacing: 1px;
   }
 
   footer {
@@ -354,13 +432,16 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     border-top: 1px solid #1a1a1a;
+    margin-top: 60px;
   }
 
   @media (max-width: 600px) {
     .form-row { grid-template-columns: 1fr; }
+    .form-row-2 { grid-template-columns: 1fr; }
     .stats-bar { grid-template-columns: 1fr 1fr; }
     header { padding: 20px; }
     .intro h1 { font-size: 28px; }
+    .email-header { flex-direction: column; align-items: flex-start; gap: 8px; }
   }
 </style>
 </head>
@@ -377,7 +458,6 @@
     <p>Never lose a lead · Powered by AI · Story of Home</p>
   </div>
 
-  <!-- Stats -->
   <div class="stats-bar">
     <div class="stat">
       <span class="stat-num">5</span>
@@ -399,7 +479,7 @@
 
   <!-- Lead Input Form -->
   <div class="lead-form">
-    <h2>Generate a Follow-Up Sequence</h2>
+    <h2>Enter Lead Details to Generate Sequence</h2>
     <div class="form-row">
       <div class="form-group">
         <label>Lead Name</label>
@@ -426,6 +506,16 @@
         </select>
       </div>
     </div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="leadEmail" placeholder="e.g. james@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="leadPhone" placeholder="e.g. +44 7700 900123" />
+      </div>
+    </div>
     <button class="generate-btn" onclick="generateSequence()">Generate Follow-Up Sequence →</button>
   </div>
 
@@ -436,28 +526,41 @@
       <div class="lead-badge" id="leadBadge"></div>
     </div>
     <div class="timeline" id="timeline"></div>
+
+    <!-- Schedule Bar -->
+    <div class="schedule-bar">
+      <p>Review the sequence above, then activate to begin sending automatically.</p>
+      <button class="schedule-btn" onclick="activateSequence()">✦ Approve & Schedule Sequence</button>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-msg" id="successMsg">
+      <h3>Sequence Activated ✦</h3>
+      <p id="successDetail">5 emails scheduled · Sending will begin immediately · Story of Home</p>
+    </div>
   </div>
 </div>
 
 <footer>175 Wardour St, Soho · London W1F 8WU · 0207 867 3999</footer>
 
 <script>
+let currentLeadEmail = '';
+let currentLeadName = '';
+
 const sequences = {
   buyer: [
     {
-      day: "Day 1",
-      timing: "Immediately after enquiry",
+      day: "Day 1", timing: "Immediately after enquiry",
       subject: "Thank you for your enquiry — Story of Home",
       body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>
 Thank you for reaching out to <span class="highlight">Story of Home</span>. It was a pleasure to hear from you, and we're delighted to help you find your perfect home in <span class="highlight">${a}</span>.<br><br>
-We have a curated selection of properties that may suit your requirements, and a member of our senior team will be in touch with you shortly to discuss your search in more detail.<br><br>
+We have a curated selection of properties that may suit your requirements, and a member of our senior team will be in touch shortly to discuss your search in more detail.<br><br>
 In the meantime, please do browse our latest listings at <span class="highlight">storyofhome.co.uk</span>.`,
       tags: ["Instant Send", "Personalised", "Automated"]
     },
     {
-      day: "Day 3",
-      timing: "3 days after enquiry",
-      subject: "Properties you might love in " ,
+      day: "Day 3", timing: "3 days after enquiry",
+      subject: "Properties you might love in",
       body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>
 We wanted to follow up with a small selection of homes in <span class="highlight">${a}</span> that we feel could be a wonderful match for you.<br><br>
 Each of these properties has been chosen with care, and we'd love to arrange a private viewing at your convenience — simply reply to this email or call us on <span class="highlight">0207 867 3999</span>.<br><br>
@@ -465,178 +568,109 @@ We look forward to hearing from you.`,
       tags: ["Property Suggestions", "Viewing CTA", "Automated"]
     },
     {
-      day: "Day 7",
-      timing: "1 week after enquiry",
+      day: "Day 7", timing: "1 week after enquiry",
       subject: "Have you found what you're looking for?",
       body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>
 We hope your search for a home in <span class="highlight">${a}</span> is going well. We just wanted to check in and see if there's anything further we can help you with.<br><br>
-If your requirements have changed, or if you'd like to discuss the market in more detail, our team is always available for a no-obligation conversation.<br><br>
-We're here whenever you need us.`,
+If your requirements have changed, or if you'd like to discuss the market in more detail, our team is always available for a no-obligation conversation.`,
       tags: ["Check-In", "Soft Touch", "Automated"]
     },
     {
-      day: "Day 14",
-      timing: "2 weeks after enquiry",
+      day: "Day 14", timing: "2 weeks after enquiry",
       subject: "New listings just arrived — Story of Home",
       body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>
-We've just added some beautiful new homes to our portfolio in <span class="highlight">${a}</span> and nearby areas that we thought you'd want to be among the first to see.<br><br>
+We've just added some beautiful new homes to our portfolio in <span class="highlight">${a}</span> that we thought you'd want to be among the first to see.<br><br>
 Some of our finest properties are agreed before they appear on Rightmove — by staying in touch with us, you'll always have early access.<br><br>
 Shall we arrange a time to chat this week?`,
       tags: ["New Listings", "Urgency", "Automated"]
     },
     {
-      day: "Day 30",
-      timing: "1 month after enquiry",
+      day: "Day 30", timing: "1 month after enquiry",
       subject: "Still searching? We're still here.",
       body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>
 A month has passed since you first got in touch, and we just wanted to make sure you haven't been forgotten — because at <span class="highlight">Story of Home</span>, every client matters to us.<br><br>
-If you're still searching for the right home in <span class="highlight">${a}</span>, we'd love to reconnect and see how we can help. The market moves quickly, and we'd hate for you to miss the right opportunity.<br><br>
-We're always just a call away.`,
+If you're still searching for the right home in <span class="highlight">${a}</span>, we'd love to reconnect. The market moves quickly, and we'd hate for you to miss the right opportunity.`,
       tags: ["Re-engagement", "Long-term Nurture", "Automated"]
     }
   ],
   tenant: [
-    {
-      day: "Day 1", timing: "Immediately after enquiry",
-      subject: "Your rental enquiry — Story of Home",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Thank you for your rental enquiry. We have some wonderful properties available to let in <span class="highlight">${a}</span> and would love to help you find your next home.<br><br>A member of our lettings team will be in touch shortly to arrange viewings.`,
-      tags: ["Instant Send", "Lettings", "Automated"]
-    },
-    {
-      day: "Day 3", timing: "3 days after enquiry",
-      subject: "Rental properties available in ",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We've selected a few rental properties in <span class="highlight">${a}</span> that match your requirements. We'd love to arrange viewings at your earliest convenience.<br><br>Please reply or call <span class="highlight">0207 867 3999</span> to book.`,
-      tags: ["Viewing CTA", "Lettings", "Automated"]
-    },
-    {
-      day: "Day 7", timing: "1 week after enquiry",
-      subject: "How is your search going?",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We just wanted to check in on your search for a rental home in <span class="highlight">${a}</span>. The lettings market moves quickly — if you've seen anything you'd like to move forward on, let us know and we'll handle everything swiftly.`,
-      tags: ["Check-In", "Soft Touch", "Automated"]
-    },
-    {
-      day: "Day 14", timing: "2 weeks after enquiry",
-      subject: "Fresh rental listings — just in",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>New rental properties have just come to market in <span class="highlight">${a}</span>. We'd love to get you in for a viewing before they're snapped up — lettings move fast right now.<br><br>Shall we arrange something this week?`,
-      tags: ["New Listings", "Urgency", "Automated"]
-    },
-    {
-      day: "Day 30", timing: "1 month after enquiry",
-      subject: "Still looking? Let us help.",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We know how tiring a property search can be. If you're still looking for the right rental in <span class="highlight">${a}</span>, please do reach out — we have off-market properties that never appear online, and we'd love to find you something special.`,
-      tags: ["Re-engagement", "Off-Market", "Automated"]
-    }
+    { day: "Day 1", timing: "Immediately after enquiry", subject: "Your rental enquiry — Story of Home", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Thank you for your rental enquiry. We have some wonderful properties available to let in <span class="highlight">${a}</span> and would love to help you find your next home.<br><br>A member of our lettings team will be in touch shortly to arrange viewings.`, tags: ["Instant Send", "Lettings", "Automated"] },
+    { day: "Day 3", timing: "3 days after enquiry", subject: "Rental properties available in", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We've selected a few rental properties in <span class="highlight">${a}</span> that match your requirements. We'd love to arrange viewings at your earliest convenience.<br><br>Please reply or call <span class="highlight">0207 867 3999</span> to book.`, tags: ["Viewing CTA", "Lettings", "Automated"] },
+    { day: "Day 7", timing: "1 week after enquiry", subject: "How is your search going?", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We just wanted to check in on your search for a rental home in <span class="highlight">${a}</span>. The lettings market moves quickly — if you've seen anything you'd like to move forward on, let us know.`, tags: ["Check-In", "Soft Touch", "Automated"] },
+    { day: "Day 14", timing: "2 weeks after enquiry", subject: "Fresh rental listings — just in", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>New rental properties have just come to market in <span class="highlight">${a}</span>. We'd love to get you in for a viewing before they're snapped up.<br><br>Shall we arrange something this week?`, tags: ["New Listings", "Urgency", "Automated"] },
+    { day: "Day 30", timing: "1 month after enquiry", subject: "Still looking? Let us help.", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We know how tiring a property search can be. If you're still looking for the right rental in <span class="highlight">${a}</span>, we have off-market properties that never appear online, and we'd love to find you something special.`, tags: ["Re-engagement", "Off-Market", "Automated"] }
   ],
   vendor: [
-    {
-      day: "Day 1", timing: "Immediately after valuation request",
-      subject: "Your valuation request — Story of Home",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Thank you for requesting a valuation with <span class="highlight">Story of Home</span>. We specialise in selling beautiful homes across London and would be delighted to discuss how we can help you achieve the best possible price for your property in <span class="highlight">${a}</span>.`,
-      tags: ["Instant Send", "Valuation", "Automated"]
-    },
-    {
-      day: "Day 3", timing: "3 days after valuation request",
-      subject: "How we market homes like yours",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We wanted to share a little more about our approach. At <span class="highlight">Story of Home</span>, every property in <span class="highlight">${a}</span> is presented with exceptional photography, thoughtful copywriting, and targeted marketing to attract the right buyers.`,
-      tags: ["Brand Story", "Soft Sell", "Automated"]
-    },
-    {
-      day: "Day 7", timing: "1 week after valuation request",
-      subject: "Recent sales in your area",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We've recently sold several beautiful homes in <span class="highlight">${a}</span> and would love to share comparable results with you. Understanding the current market could be very helpful as you consider your next steps.`,
-      tags: ["Social Proof", "Market Data", "Automated"]
-    },
-    {
-      day: "Day 14", timing: "2 weeks after valuation request",
-      subject: "Ready when you are",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Selling your home is a significant decision, and we understand it takes time. When you're ready to take the next step, our team in <span class="highlight">${a}</span> is here to guide you through every stage of the process with care and expertise.`,
-      tags: ["Patient Nurture", "Trust Building", "Automated"]
-    },
-    {
-      day: "Day 30", timing: "1 month after valuation request",
-      subject: "The spring market is moving — a note from Story of Home",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>The London property market in <span class="highlight">${a}</span> is particularly active right now, and well-presented homes are achieving strong results. If you've been considering selling, this could be a wonderful time to take that step. We'd love to have a conversation.`,
-      tags: ["Market Update", "Seasonal", "Automated"]
-    }
+    { day: "Day 1", timing: "Immediately after valuation request", subject: "Your valuation request — Story of Home", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Thank you for requesting a valuation with <span class="highlight">Story of Home</span>. We'd be delighted to discuss how we can help you achieve the best possible price for your property in <span class="highlight">${a}</span>.`, tags: ["Instant Send", "Valuation", "Automated"] },
+    { day: "Day 3", timing: "3 days after valuation request", subject: "How we market homes like yours", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>At <span class="highlight">Story of Home</span>, every property in <span class="highlight">${a}</span> is presented with exceptional photography, thoughtful copywriting, and targeted marketing to attract the right buyers.`, tags: ["Brand Story", "Soft Sell", "Automated"] },
+    { day: "Day 7", timing: "1 week after valuation request", subject: "Recent sales in your area", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We've recently sold several beautiful homes in <span class="highlight">${a}</span> and would love to share comparable results with you. Understanding the current market could be very helpful as you consider your next steps.`, tags: ["Social Proof", "Market Data", "Automated"] },
+    { day: "Day 14", timing: "2 weeks after valuation request", subject: "Ready when you are", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Selling your home is a significant decision, and we understand it takes time. When you're ready to take the next step, our team in <span class="highlight">${a}</span> is here to guide you through every stage with care and expertise.`, tags: ["Patient Nurture", "Trust Building", "Automated"] },
+    { day: "Day 30", timing: "1 month after valuation request", subject: "The market is moving — a note from Story of Home", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>The London property market in <span class="highlight">${a}</span> is particularly active right now, and well-presented homes are achieving strong results. If you've been considering selling, this could be a wonderful time to take that step.`, tags: ["Market Update", "Seasonal", "Automated"] }
   ],
   landlord: [
-    {
-      day: "Day 1", timing: "Immediately after enquiry",
-      subject: "Letting your property — Story of Home",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Thank you for your enquiry about letting your property in <span class="highlight">${a}</span>. Our lettings team has extensive experience managing beautiful homes across London and we'd love to discuss how we can help maximise your rental income.`,
-      tags: ["Instant Send", "Landlord", "Automated"]
-    },
-    {
-      day: "Day 3", timing: "3 days after enquiry",
-      subject: "Our lettings management service",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We offer a fully managed lettings service for landlords in <span class="highlight">${a}</span> — from finding quality tenants and referencing to rent collection and maintenance coordination. We take the stress out of letting, completely.`,
-      tags: ["Service Overview", "Landlord", "Automated"]
-    },
-    {
-      day: "Day 7", timing: "1 week after enquiry",
-      subject: "Current rental demand in your area",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Demand for quality rental properties in <span class="highlight">${a}</span> remains exceptionally strong. We currently have a number of pre-qualified tenants actively searching — your property could be let within days of listing.`,
-      tags: ["Market Intel", "Urgency", "Automated"]
-    },
-    {
-      day: "Day 14", timing: "2 weeks after enquiry",
-      subject: "Protecting your investment",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Beyond finding tenants, our managed service for landlords in <span class="highlight">${a}</span> ensures your property is cared for, your legal obligations are met, and your rental income arrives on time — every month.`,
-      tags: ["Trust", "Long-term Value", "Automated"]
-    },
-    {
-      day: "Day 30", timing: "1 month after enquiry",
-      subject: "How can we help you?",
-      body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We understand letting a property is a big decision. If you have any questions about the process, rental values in <span class="highlight">${a}</span>, or how our service works, we'd be delighted to have a no-obligation conversation at a time that suits you.`,
-      tags: ["Re-engagement", "No Pressure", "Automated"]
-    }
+    { day: "Day 1", timing: "Immediately after enquiry", subject: "Letting your property — Story of Home", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Thank you for your enquiry about letting your property in <span class="highlight">${a}</span>. Our lettings team has extensive experience managing beautiful homes across London and we'd love to discuss how we can help maximise your rental income.`, tags: ["Instant Send", "Landlord", "Automated"] },
+    { day: "Day 3", timing: "3 days after enquiry", subject: "Our lettings management service", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>We offer a fully managed lettings service for landlords in <span class="highlight">${a}</span> — from finding quality tenants and referencing to rent collection and maintenance coordination.`, tags: ["Service Overview", "Landlord", "Automated"] },
+    { day: "Day 7", timing: "1 week after enquiry", subject: "Current rental demand in your area", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Demand for quality rental properties in <span class="highlight">${a}</span> remains exceptionally strong. We currently have pre-qualified tenants actively searching — your property could be let within days of listing.`, tags: ["Market Intel", "Urgency", "Automated"] },
+    { day: "Day 14", timing: "2 weeks after enquiry", subject: "Protecting your investment", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>Beyond finding tenants, our managed service for landlords in <span class="highlight">${a}</span> ensures your property is cared for, your legal obligations are met, and your rental income arrives on time — every month.`, tags: ["Trust", "Long-term Value", "Automated"] },
+    { day: "Day 30", timing: "1 month after enquiry", subject: "How can we help you?", body: (n, a) => `<span class="salutation">Dear ${n},</span><br><br>If you have any questions about the process, rental values in <span class="highlight">${a}</span>, or how our service works, we'd be delighted to have a no-obligation conversation at a time that suits you.`, tags: ["Re-engagement", "No Pressure", "Automated"] }
   ]
 };
 
 function generateSequence() {
   const name = document.getElementById('leadName').value.trim() || 'James';
+  const email = document.getElementById('leadEmail').value.trim() || 'client@email.com';
+  const phone = document.getElementById('leadPhone').value.trim() || 'Not provided';
   const type = document.getElementById('leadType').value;
   const area = document.getElementById('leadArea').value;
+
+  currentLeadEmail = email;
+  currentLeadName = name;
 
   const section = document.getElementById('timelineSection');
   const timeline = document.getElementById('timeline');
   const title = document.getElementById('timelineTitle');
   const badge = document.getElementById('leadBadge');
+  const successMsg = document.getElementById('successMsg');
 
   const typeLabels = { buyer: 'Buyer', tenant: 'Tenant', vendor: 'Vendor', landlord: 'Landlord' };
 
   title.textContent = `Follow-Up Sequence for ${name}`;
   badge.textContent = `${typeLabels[type]} · ${area}`;
+  successMsg.classList.remove('visible');
 
   timeline.innerHTML = '';
   section.classList.add('visible');
 
   const emails = sequences[type];
 
-  emails.forEach((email, i) => {
+  emails.forEach((email_item) => {
     const item = document.createElement('div');
     item.className = 'timeline-item';
 
-    const subjectLine = email.subject.includes('in ') && !email.subject.includes('in "')
-      ? email.subject.replace(/in $/, `in ${area}`)
-      : email.subject;
+    const subjectLine = email_item.subject.endsWith('in')
+      ? `${email_item.subject} ${area}`
+      : email_item.subject;
 
     item.innerHTML = `
       <div class="timeline-dot"></div>
       <div class="email-card" onclick="toggleEmail(this)">
         <div class="email-header">
           <div class="email-meta">
-            <div class="day-badge">${email.day}</div>
+            <div class="day-badge">${email_item.day}</div>
             <div class="email-info">
               <div class="email-subject">${subjectLine}</div>
-              <div class="email-timing">${email.timing}</div>
+              <div class="email-timing">${email_item.timing}</div>
             </div>
           </div>
           <div class="email-status">Auto Send ✦</div>
         </div>
         <div class="email-body">
+          <div class="email-to-bar">
+            <span>To:</span> ${name} &lt;${email}&gt; &nbsp;|&nbsp;
+            <span>Phone:</span> ${phone}
+          </div>
           <div class="email-preview">
-            ${email.body(name, area)}
+            ${email_item.body(name, area)}
             <div class="signature">
               Warm regards,<br>
               <strong style="color:#c9a96e">Story of Home</strong><br>
@@ -645,7 +679,7 @@ function generateSequence() {
             </div>
           </div>
           <div class="email-tags">
-            ${email.tags.map(t => `<span class="etag">${t}</span>`).join('')}
+            ${email_item.tags.map(t => `<span class="etag">${t}</span>`).join('')}
           </div>
         </div>
       </div>`;
@@ -657,6 +691,14 @@ function generateSequence() {
 
 function toggleEmail(card) {
   card.classList.toggle('open');
+}
+
+function activateSequence() {
+  const successMsg = document.getElementById('successMsg');
+  document.getElementById('successDetail').textContent =
+    `5 emails scheduled for ${currentLeadName} (${currentLeadEmail}) · Sending begins immediately · Story of Home`;
+  successMsg.classList.add('visible');
+  successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 </script>
 </body>
